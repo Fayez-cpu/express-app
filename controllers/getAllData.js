@@ -1,7 +1,15 @@
+import 'dotenv/config';
 import { startups } from '../data/data.js'
+import { db } from '../database/connect';
 
-export const getAllData = (req, res) => {
-
+export const getAllData = async (req, res) => {
+  try{
+  const users =  await db.one('INSERT INTO users (email,name) VALUES ($1, $2) RETURNING *', ["aug@st.com", "me"] )
+  return res.json(users)
+  }
+  catch(error){
+    console.log(error)
+  }
   let filteredData = startups
 
   const { industry, country, continent, is_seeking_funding, has_mvp } = req.query
