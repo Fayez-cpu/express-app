@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Auth Test</title>
+<style>
+  body { font-family: sans-serif; max-width: 400px; margin: 40px auto; }
+  fieldset { margin-bottom: 24px; }
+  label { display: block; margin-top: 8px; }
+  input { width: 100%; padding: 6px; box-sizing: border-box; }
+  button { margin-top: 12px; padding: 8px 16px; }
+  pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; word-break: break-all; }
+</style>
+</head>
+<body>
+
+<h1>Auth Test</h1>
+
+<fieldset>
+  <legend>Sign Up</legend>
+  <label>Name <input type="text" id="signup-name"></label>
+  <label>Email <input type="email" id="signup-email"></label>
+  <label>Password <input type="password" id="signup-password"></label>
+  <button onclick="signup()">Sign Up</button>
+</fieldset>
+
+<fieldset>
+  <legend>Login</legend>
+  <label>Email <input type="email" id="login-email"></label>
+  <label>Password <input type="password" id="login-password"></label>
+  <button onclick="login()">Login</button>
+</fieldset>
+
+<h3>Response</h3>
+<pre id="output">(nothing yet)</pre>
+
+<script>
+const BASE_URL = 'http://127.0.0.1:8000';
+
+function showOutput(data) {
+  document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+}
+
+async function signup() {
+  const name = document.getElementById('signup-name').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+
+  try {
+    const res = await fetch(`${BASE_URL}/auth/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password })
+    });
+    const data = await res.json();
+    showOutput({ status: res.status, body: data });
+  } catch (err) {
+    showOutput({ error: err.message });
+  }
+}
+
+async function login() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+
+  try {
+    const res = await fetch(`${BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+      credentials: 'include'
+    });
+    const data = await res.json();
+    showOutput({ status: res.status, body: data });
+  } catch (err) {
+    showOutput({ error: err.message });
+  }
+}
+</script>
+
+</body>
+</html>

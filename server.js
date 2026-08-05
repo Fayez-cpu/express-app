@@ -1,6 +1,7 @@
 import express from 'express'
 import { apiRouter } from './routes/apiRoutes.js'
-
+import { authRouter } from './routes/authRoutes.js'
+import cors from 'cors'
 
 /*
 Challenge:
@@ -17,7 +18,17 @@ http://localhost:8000/wrong-api/useless/user
 const PORT = 8000
 
 const app = express()
+app.use(cors({
+  origin: 'http://127.0.0.1:5500',
+  credentials: true
+}));
+app.use(express.json());
 
 app.use('/api', apiRouter)
-
+app.use("/auth", authRouter)
+app.use((req, res) => {
+  res.status(404).json({ message: "Endpoint not found. Please check the API documentation." })
+})
 app.listen(PORT, () => console.log(`server connected on port ${PORT}`))
+
+
