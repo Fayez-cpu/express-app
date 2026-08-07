@@ -1,6 +1,7 @@
 import express from 'express'
 import { apiRouter } from './routes/apiRoutes.js'
 import { authRouter } from './routes/authRoutes.js'
+import { dashboardRouter } from './routes/dashboardRoutes.js'
 import cors from 'cors'
 
 /*
@@ -26,6 +27,7 @@ app.use(express.json());
 
 app.use('/api', apiRouter)
 app.use("/auth", authRouter)
+app.use("/dashboard", dashboardRouter)
 app.use((req, res) => {
   res.status(404).json({ message: "Endpoint not found. Please check the API documentation." })
 })

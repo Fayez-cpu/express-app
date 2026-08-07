@@ -20,7 +20,7 @@ export const signup = async (req,res) => {
 
 export const login = async (req,res) => {
     const {email,password} = req.body
-    const userExists = await db.oneOrNone('SELECT id, password_hash from users WHERE email = $1', [email])
+    const userExists = await db.oneOrNone('SELECT id,name, password_hash from users WHERE email = $1', [email])
     if (!userExists){
         return res.status(400).json({error: "Email or password incorrect"})
     }
@@ -30,7 +30,7 @@ export const login = async (req,res) => {
     }
 
     const token = generateToken(userExists.id, res)
-    return res.status(200).json({message: "logged in"})
+    return res.status(200).json({message: "logged in", user: {id: userExists.id, email: email, name: userExists.name}})
 
 }
 
