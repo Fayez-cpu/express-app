@@ -3,6 +3,7 @@ import { apiRouter } from './routes/apiRoutes.js'
 import { authRouter } from './routes/authRoutes.js'
 import { dashboardRouter } from './routes/dashboardRoutes.js'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
 /*
 Challenge:
@@ -24,6 +25,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api', apiRouter)
 app.use("/auth", authRouter)
