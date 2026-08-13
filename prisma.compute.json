@@ -1,0 +1,13 @@
+{
+  "region": "eu-central-1",
+  "app": {
+    "name": "startup-planet",
+    "framework": "bun",
+    "entry": "server.js",
+    "httpPort": 3000,
+    "build": {
+      "command": null,
+      "outputDirectory": "."
+    }
+  }
+}
