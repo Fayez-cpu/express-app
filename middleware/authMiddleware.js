@@ -8,7 +8,10 @@ export const authMiddleware = async(req, res, next) => {
         token = req.cookies.jwt
         console.log("token found in cookies")
     }
-    
+    else if (req.headers.authorization?.startsWith("Bearer ")){
+        token = req.headers.authorization.split(" ")[1]
+        console.log("token found in authorization header")
+    }
     else{
         return res.status(401).json({error: "Not authorized"})
     }

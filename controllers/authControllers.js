@@ -30,7 +30,12 @@ export const login = async (req,res) => {
     }
 
     const token = generateToken(userExists.id, res)
-    return res.status(200).json({message: "logged in", user: {id: userExists.id, email: email, name: userExists.name}})
+    const isBrowser = Boolean(req.headers.origin)
+    const responseBody = {message: "logged in", user: {id: userExists.id, email: email, name: userExists.name}}
+    if (!isBrowser){
+        responseBody.token = token
+    }
+    return res.status(200).json(responseBody)
 
 }
 
